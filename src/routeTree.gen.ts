@@ -36,9 +36,9 @@ const ShopIndexRoute = ShopIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShopProductNameRoute = ShopProductNameRouteImport.update({
-  id: '/$productName',
-  path: '/$productName',
-  getParentRoute: () => ShopRoute,
+  id: '/shop/$productName',
+  path: '/shop/$productName',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -81,6 +81,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactsRoute: typeof ContactsRoute
+  ShopProductNameRoute: typeof ShopProductNameRoute
   ShopIndexRoute: typeof ShopIndexRoute
 }
 
@@ -116,10 +117,10 @@ declare module '@tanstack/react-router' {
     }
     '/shop/$productName': {
       id: '/shop/$productName'
-      path: '/$productName'
+      path: '/shop/$productName'
       fullPath: '/shop/$productName'
       preLoaderRoute: typeof ShopProductNameRouteImport
-      parentRoute: typeof ShopRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -128,18 +129,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactsRoute: ContactsRoute,
+  ShopProductNameRoute: ShopProductNameRoute,
   ShopIndexRoute: ShopIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
