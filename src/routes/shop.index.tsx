@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PRODUCTS } from "@/lib/products";
 
-export const Route = createFileRoute("/shop")({
+export const Route = createFileRoute("/shop/")({
   head: () => ({
     meta: [
       { title: "Shop — Grace Solar Product Lines" },
