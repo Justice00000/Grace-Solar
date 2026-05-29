@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://grace-solar-roar.lovable.app/sitemap.xml
