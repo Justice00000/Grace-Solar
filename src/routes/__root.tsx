@@ -81,8 +81,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Grace Solar — Intelligent Solar Energy Systems" },
       { name: "twitter:description", content: "Grace Solar engineers next-generation solar inverters and storage for homes, businesses, and off-grid sites." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/99487532-08a0-4c76-bb13-fd524019027e/id-preview-a01f3026--4881f2b8-9195-494d-8646-2ecc6bc938df.lovable.app-1779979242706.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/99487532-08a0-4c76-bb13-fd524019027e/id-preview-a01f3026--4881f2b8-9195-494d-8646-2ecc6bc938df.lovable.app-1779979242706.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },

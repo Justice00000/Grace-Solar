@@ -9,6 +9,33 @@ export const Route = createFileRoute("/contacts")({
     meta: [
       { title: "Contacts — Grace Solar" },
       { name: "description", content: "Get in touch with Grace Solar — quote requests, partnerships and support." },
+      { property: "og:title", content: "Contacts — Grace Solar" },
+      { property: "og:description", content: "Reach the Grace Solar team for quotes, partnerships, and engineering support." },
+      { property: "og:url", content: "https://grace-solar-roar.lovable.app/contacts" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://grace-solar-roar.lovable.app/contacts" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "Grace Solar",
+          email: "hello@gracesolar.com",
+          telephone: "+1-415-555-0123",
+          url: "https://grace-solar-roar.lovable.app/contacts",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "120 Solar Ave",
+            addressLocality: "Reno",
+            addressRegion: "NV",
+            postalCode: "89501",
+            addressCountry: "US",
+          },
+        }),
+      },
     ],
   }),
   component: Contacts,

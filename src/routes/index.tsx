@@ -10,6 +10,43 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "Grace Solar — Power, Reimagined" },
       { name: "description", content: "Premium solar inverters, batteries and hybrid systems engineered for clean, reliable power — for homes, businesses and the grid." },
+      { property: "og:title", content: "Grace Solar — Power, Reimagined" },
+      { property: "og:description", content: "Premium solar inverters, batteries and hybrid systems engineered for clean, reliable power." },
+      { property: "og:url", content: "https://grace-solar-roar.lovable.app/" },
+      { property: "og:type", content: "website" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://grace-solar-roar.lovable.app/" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Grace Solar",
+          url: "https://grace-solar-roar.lovable.app/",
+          email: "hello@gracesolar.com",
+          telephone: "+1-415-555-0123",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "120 Solar Ave",
+            addressLocality: "Reno",
+            addressRegion: "NV",
+            postalCode: "89501",
+            addressCountry: "US",
+          },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Grace Solar",
+          url: "https://grace-solar-roar.lovable.app/",
+        }),
+      },
     ],
   }),
   component: Index,

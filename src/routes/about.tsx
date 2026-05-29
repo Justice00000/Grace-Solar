@@ -8,6 +8,12 @@ export const Route = createFileRoute("/about")({
     meta: [
       { title: "About — Grace Solar" },
       { name: "description", content: "Grace Solar is an energy systems company building intelligent solar inverters and storage for a renewable century." },
+      { property: "og:title", content: "About — Grace Solar" },
+      { property: "og:description", content: "The team, mission, and trajectory behind Grace Solar's intelligent energy systems." },
+      { property: "og:url", content: "https://grace-solar-roar.lovable.app/about" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://grace-solar-roar.lovable.app/about" },
     ],
   }),
   component: About,

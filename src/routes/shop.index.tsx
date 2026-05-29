@@ -9,6 +9,12 @@ export const Route = createFileRoute("/shop/")({
     meta: [
       { title: "Shop — Grace Solar Product Lines" },
       { name: "description", content: "Explore Grace Solar product lines: hybrid inverters, LiFePO4 storage, off-grid and industrial systems." },
+      { property: "og:title", content: "Shop — Grace Solar Product Lines" },
+      { property: "og:description", content: "Five product lines of inverters and batteries — Apex, Hybrid, Edge, Titan, Pulse." },
+      { property: "og:url", content: "https://grace-solar-roar.lovable.app/shop" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://grace-solar-roar.lovable.app/shop" },
     ],
   }),
   component: Shop,
