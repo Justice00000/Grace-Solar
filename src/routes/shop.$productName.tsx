@@ -4,6 +4,8 @@ import { useState } from "react";
 import { ArrowLeft, Zap, Battery, Check } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { getProduct, type Item } from "@/lib/products";
+import { formatNaira } from "@/lib/products";
+import { useCart } from "@/lib/cart";
 import inverterImg from "@/assets/inverter.jpg";
 import batteryImg from "@/assets/battery.jpg";
 
@@ -64,6 +66,7 @@ function ProductLine() {
   const [tab, setTab] = useState<Tab>("inverter");
   const items: Item[] = tab === "inverter" ? product.inverters : product.batteries;
   const heroImg = tab === "inverter" ? inverterImg : batteryImg;
+  const { add, setOpen } = useCart();
 
   return (
     <SiteLayout>
@@ -148,8 +151,8 @@ function ProductLine() {
                       <p className="mt-1 text-sm text-muted-foreground">{item.spec}</p>
                     </div>
                     <div className="text-right">
-                      <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Rated</div>
-                      <div className="font-display text-2xl font-semibold text-primary">{item.power}</div>
+                      <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">{item.power}</div>
+                      <div className="font-display text-2xl font-semibold text-primary">{formatNaira(item.price)}</div>
                     </div>
                   </div>
                   <ul className="mt-6 flex flex-wrap gap-2">
@@ -159,12 +162,20 @@ function ProductLine() {
                       </li>
                     ))}
                   </ul>
-                  <Link
-                    to="/contacts"
-                    className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-foreground group-hover:text-primary"
-                  >
-                    Request quote →
-                  </Link>
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <button
+                      onClick={() => { add(item.id); setOpen(true); }}
+                      className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-105"
+                    >
+                      Add to cart
+                    </button>
+                    <Link
+                      to="/contacts"
+                      className="rounded-full border border-border px-5 py-2.5 text-sm font-medium hover:bg-muted"
+                    >
+                      Request quote
+                    </Link>
+                  </div>
                 </motion.article>
               ))}
             </div>

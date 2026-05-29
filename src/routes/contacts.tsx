@@ -23,16 +23,15 @@ export const Route = createFileRoute("/contacts")({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           name: "Grace Solar",
-          email: "hello@gracesolar.com",
-          telephone: "+1-415-555-0123",
+          email: "Gracesolar26@gmail.com",
+          telephone: "+234-703-048-9665",
           url: "https://grace-solar-roar.lovable.app/contacts",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "120 Solar Ave",
-            addressLocality: "Reno",
-            addressRegion: "NV",
-            postalCode: "89501",
-            addressCountry: "US",
+            streetAddress: "C27 Century Mall, St Patrick bus stop, Alaba International Market",
+            addressLocality: "Ojo",
+            addressRegion: "Lagos",
+            addressCountry: "NG",
           },
         }),
       },
@@ -56,9 +55,9 @@ function Contacts() {
       <section className="mx-auto mt-20 grid max-w-[1400px] gap-12 px-6 pb-32 lg:grid-cols-[2fr_3fr]">
         <div className="space-y-8">
           {[
-            { icon: Mail, label: "Email", value: "hello@gracesolar.com" },
-            { icon: Phone, label: "Phone", value: "+1 (415) 555-0123" },
-            { icon: MapPin, label: "HQ", value: "120 Solar Ave, Reno NV 89501" },
+            { icon: Mail, label: "Email", value: "Gracesolar26@gmail.com" },
+            { icon: Phone, label: "Phone", value: "0703 048 9665 · 0703 085 1497" },
+            { icon: MapPin, label: "Shop", value: "C27 Century Mall, St Patrick bus stop, Alaba International Market, Ojo, Lagos" },
           ].map((c, i) => {
             const Icon = c.icon;
             return (

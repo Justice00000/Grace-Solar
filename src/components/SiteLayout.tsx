@@ -1,7 +1,10 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Menu, X, Sun } from "lucide-react";
+import { Menu, X, Sun, ShoppingCart } from "lucide-react";
+import { useCart } from "@/lib/cart";
+import { CartDrawer } from "@/components/CartDrawer";
+import { WhatsAppChat } from "@/components/WhatsAppChat";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -13,6 +16,7 @@ const NAV = [
 export function SiteLayout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { count, setOpen: setCartOpen } = useCart();
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
@@ -47,12 +51,38 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
               );
             })}
           </nav>
-          <Link
-            to="/contacts"
-            className="hidden rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-background transition-transform hover:scale-105 md:block"
+          <div className="hidden items-center gap-2 md:flex">
+            <button
+              onClick={() => setCartOpen(true)}
+              className="relative grid h-10 w-10 place-items-center rounded-full border border-border bg-background hover:bg-muted"
+              aria-label="Open cart"
+            >
+              <ShoppingCart className="h-4 w-4" />
+              {count > 0 && (
+                <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
+                  {count}
+                </span>
+              )}
+            </button>
+            <Link
+              to="/contacts"
+              className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-background transition-transform hover:scale-105"
+            >
+              Get a quote
+            </Link>
+          </div>
+          <button
+            onClick={() => setCartOpen(true)}
+            className="relative grid h-10 w-10 place-items-center rounded-full border border-border bg-background md:hidden"
+            aria-label="Open cart"
           >
-            Get a quote
-          </Link>
+            <ShoppingCart className="h-4 w-4" />
+            {count > 0 && (
+              <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
+                {count}
+              </span>
+            )}
+          </button>
           <button
             className="grid h-10 w-10 place-items-center rounded-full bg-ink text-background md:hidden"
             onClick={() => setOpen((v) => !v)}
@@ -95,9 +125,11 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
               </span>
               Grace Solar
             </div>
-            <p className="mt-4 max-w-md text-sm text-background/80">
-              Powering homes, businesses and tomorrow with intelligent solar systems
-              engineered for reliability.
+            <p className="mt-4 max-w-md text-sm italic text-background/80">
+              "Our customer satisfaction, our utmost priority."
+            </p>
+            <p className="mt-3 max-w-md text-sm text-background/70">
+              Solar inverters, batteries and power systems for homes and businesses in Lagos and across Nigeria.
             </p>
           </div>
           <div>
@@ -115,9 +147,10 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
           <div>
             <div className="text-xs uppercase tracking-widest text-background/70">Contact</div>
             <ul className="mt-4 space-y-2 text-sm text-background/80">
-              <li>hello@gracesolar.com</li>
-              <li>+1 (415) 555-0123</li>
-              <li>120 Solar Ave, Reno NV</li>
+              <li>Gracesolar26@gmail.com</li>
+              <li>0703 048 9665</li>
+              <li>0703 085 1497</li>
+              <li>C27 Century Mall, St Patrick bus stop,<br />Alaba International Market, Ojo, Lagos</li>
             </ul>
           </div>
         </div>
@@ -125,6 +158,9 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
           © {new Date().getFullYear()} Grace Solar. Built with sunlight.
         </div>
       </footer>
+
+      <CartDrawer />
+      <WhatsAppChat />
     </div>
   );
 }
