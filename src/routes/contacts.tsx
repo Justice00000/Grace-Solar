@@ -23,7 +23,7 @@ export const Route = createFileRoute("/contacts")({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           name: "Grace Solar",
-          email: "hello@gracesolar.com",
+          email: "Gracesolar26@gmail.com",
           telephone: "+234-703-048-9665",
           url: "https://grace-solar-roar.lovable.app/contacts",
           address: {
