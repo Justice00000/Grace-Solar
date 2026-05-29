@@ -13,83 +13,133 @@ export type Item = {
   spec: string;
   power: string;
   features: string[];
+  price: number; // Naira
 };
 
 export const PRODUCTS: ProductLine[] = [
   {
-    slug: "grace-apex",
-    name: "Grace Apex",
-    tagline: "Flagship hybrid power systems",
-    description:
-      "Our top-tier hybrid line built for commercial deployments and high-output residential stacks.",
+    slug: "deye",
+    name: "Deye",
+    tagline: "High-output hybrid inverters & storage",
+    description: "Deye hybrid inverters and battery packs for homes and commercial loads.",
     inverters: [
-      { id: "apex-i-12k", name: "Apex H12K", spec: "12kW · 3-phase", power: "12,000 W", features: ["MPPT x3", "Off-grid ready", "IP65"] },
-      { id: "apex-i-20k", name: "Apex H20K", spec: "20kW · 3-phase", power: "20,000 W", features: ["MPPT x4", "Parallel up to 10", "WiFi/4G"] },
-      { id: "apex-i-30k", name: "Apex H30K", spec: "30kW · 3-phase", power: "30,000 W", features: ["MPPT x6", "Hot standby", "Smart EMS"] },
+      { id: "deye-i-5k", name: "Deye 5 KVA", spec: "48 Volts", power: "5,000 VA", features: ["Hybrid", "MPPT", "Grid-tied"], price: 500000 },
+      { id: "deye-i-6k", name: "Deye 6 KVA", spec: "48 Volts", power: "6,000 VA", features: ["Hybrid", "MPPT"], price: 600000 },
+      { id: "deye-i-10k", name: "Deye 10 KVA", spec: "48 Volts", power: "10,000 VA", features: ["Hybrid", "Parallel"], price: 1250000 },
+      { id: "deye-i-12k", name: "Deye 12 KVA", spec: "48 Volts", power: "12,000 VA", features: ["Hybrid", "3-phase ready"], price: 1300000 },
     ],
     batteries: [
-      { id: "apex-b-15", name: "Apex Stack 15", spec: "LiFePO4 · 15kWh", power: "15,000 Wh", features: ["6000 cycles", "Wall mount", "IP65"] },
-      { id: "apex-b-30", name: "Apex Stack 30", spec: "LiFePO4 · 30kWh", power: "30,000 Wh", features: ["Modular", "Rack mount", "BMS+"] },
+      { id: "deye-b-16", name: "Deye 16 KWh", spec: "48 Volts · LiFePO4", power: "16,000 Wh", features: ["Wall mount", "BMS"], price: 2700000 },
     ],
   },
   {
-    slug: "grace-hybrid",
-    name: "Grace Hybrid",
-    tagline: "All-in-one residential solutions",
-    description:
-      "A complete home energy ecosystem — inverter, battery and EMS pre-paired for a clean install.",
+    slug: "lv-topson",
+    name: "LV Topson",
+    tagline: "Inverters and lithium storage",
+    description: "LV Topson inverter range with matched LiFePO4 batteries from 100Ah to 32kWh.",
     inverters: [
-      { id: "hyb-i-5k", name: "Hybrid 5K", spec: "5kW · 1-phase", power: "5,000 W", features: ["Dual MPPT", "Battery ready", "Silent"] },
-      { id: "hyb-i-8k", name: "Hybrid 8K", spec: "8kW · 1-phase", power: "8,000 W", features: ["Dual MPPT", "Backup", "App control"] },
+      { id: "lvt-i-4k", name: "LV Topson 4 KVA", spec: "24 Volts", power: "4,000 VA", features: ["Pure sine"], price: 370000 },
+      { id: "lvt-i-6k", name: "LV Topson 6 KVA", spec: "48 Volts", power: "6,000 VA", features: ["Hybrid"], price: 470000 },
+      { id: "lvt-i-12k", name: "LV Topson 12 KVA", spec: "48 Volts", power: "12,000 VA", features: ["High output"], price: 1000000 },
     ],
     batteries: [
-      { id: "hyb-b-5", name: "Hybrid Wall 5", spec: "LiFePO4 · 5kWh", power: "5,000 Wh", features: ["Slim wall", "Plug-and-play"] },
-      { id: "hyb-b-10", name: "Hybrid Wall 10", spec: "LiFePO4 · 10kWh", power: "10,000 Wh", features: ["Stackable", "10yr warranty"] },
+      { id: "lvt-b-100", name: "LV Topson 100Ah", spec: "12 Volts", power: "1,200 Wh", features: ["LiFePO4"], price: 250000 },
+      { id: "lvt-b-200", name: "LV Topson 200Ah", spec: "12 Volts", power: "2,400 Wh", features: ["LiFePO4"], price: 400000 },
+      { id: "lvt-b-25", name: "LV Topson 2.5 KWh", spec: "24 Volts", power: "2,500 Wh", features: ["LiFePO4"], price: 600000 },
+      { id: "lvt-b-5", name: "LV Topson 5 KWh", spec: "24 / 48 Volts", power: "5,000 Wh", features: ["LiFePO4"], price: 1000000 },
+      { id: "lvt-b-7", name: "LV Topson 7.16 KWh", spec: "48 Volts", power: "7,160 Wh", features: ["LiFePO4"], price: 1300000 },
+      { id: "lvt-b-10", name: "LV Topson 10 KWh", spec: "48 Volts", power: "10,000 Wh", features: ["Rack"], price: 1750000 },
+      { id: "lvt-b-15", name: "LV Topson 15 KWh", spec: "48 Volts", power: "15,000 Wh", features: ["Rack"], price: 2000000 },
+      { id: "lvt-b-16-g3", name: "LV Topson 16 KWh (G3)", spec: "48 Volts", power: "16,000 Wh", features: ["G3"], price: 2200000 },
+      { id: "lvt-b-16-g4", name: "LV Topson 16 KWh (G4)", spec: "48 Volts", power: "16,000 Wh", features: ["G4"], price: 2700000 },
+      { id: "lvt-b-32", name: "LV Topson 32 KWh", spec: "48 Volts", power: "32,000 Wh", features: ["High capacity"], price: 4200000 },
     ],
   },
   {
-    slug: "grace-edge",
-    name: "Grace Edge",
-    tagline: "Off-grid and remote deployments",
-    description: "Rugged systems engineered for telecom sites, rural homes and off-grid microgrids.",
+    slug: "sunmate",
+    name: "SunMate",
+    tagline: "SMS inverter and battery range",
+    description: "SunMate (SMS) inverters and batteries — reliable performance for homes and offices.",
     inverters: [
-      { id: "edge-i-3k", name: "Edge 3K", spec: "3kW off-grid", power: "3,000 W", features: ["Pure sine", "MPPT 60A", "Compact"] },
-      { id: "edge-i-5k", name: "Edge 5K", spec: "5kW off-grid", power: "5,000 W", features: ["MPPT 100A", "Parallel", "Generator-ready"] },
+      { id: "sm-i-1k", name: "SunMate 1 KVA", spec: "12 Volts", power: "1,000 VA", features: ["Pure sine"], price: 200000 },
+      { id: "sm-i-2k", name: "SunMate 2 KVA", spec: "12 Volts", power: "2,000 VA", features: ["Pure sine"], price: 260000 },
+      { id: "sm-i-36k", name: "SunMate 3.6 KVA", spec: "24 Volts", power: "3,600 VA", features: ["MPPT"], price: 330000 },
+      { id: "sm-i-42k", name: "SunMate 4.2 KVA", spec: "24 Volts", power: "4,200 VA", features: ["MPPT"], price: 380000 },
+      { id: "sm-i-5k", name: "SunMate 5 KVA", spec: "24 Volts", power: "5,000 VA", features: ["MPPT"], price: 400000 },
+      { id: "sm-i-5kp", name: "SunMate 5 KVA Parallel", spec: "48 Volts", power: "5,000 VA", features: ["Parallel function"], price: 440000 },
+      { id: "sm-i-65k", name: "SunMate 6.5 KVA", spec: "48 Volts", power: "6,500 VA", features: ["Hybrid"], price: 800000 },
     ],
     batteries: [
-      { id: "edge-b-24", name: "Edge 24V Pack", spec: "LiFePO4 · 24V/200Ah", power: "4,800 Wh", features: ["Cold-rated", "Steel case"] },
-      { id: "edge-b-48", name: "Edge 48V Pack", spec: "LiFePO4 · 48V/200Ah", power: "9,600 Wh", features: ["CAN bus", "Field serviceable"] },
+      { id: "sm-b-100", name: "SunMate 100Ah", spec: "12 Volts", power: "1,200 Wh", features: ["LiFePO4"], price: 250000 },
+      { id: "sm-b-200", name: "SunMate 200Ah", spec: "12 Volts", power: "2,400 Wh", features: ["LiFePO4"], price: 390000 },
+      { id: "sm-b-300", name: "SunMate 300Ah", spec: "12 Volts", power: "3,600 Wh", features: ["LiFePO4"], price: 450000 },
+      { id: "sm-b-5", name: "SunMate 5 KWh", spec: "24 / 48 Volts", power: "5,000 Wh", features: ["LiFePO4"], price: 950000 },
+      { id: "sm-b-75", name: "SunMate 7.5 KWh", spec: "24 Volts", power: "7,500 Wh", features: ["LiFePO4"], price: 1150000 },
+      { id: "sm-b-10", name: "SunMate 10 KWh", spec: "48 Volts", power: "10,000 Wh", features: ["Rack"], price: 1600000 },
+      { id: "sm-b-15", name: "SunMate 15 KWh", spec: "48 Volts", power: "15,000 Wh", features: ["Rack"], price: 1800000 },
     ],
   },
   {
-    slug: "grace-titan",
-    name: "Grace Titan",
-    tagline: "Industrial-grade storage",
-    description: "Container-scale storage for factories, farms and EV charging hubs.",
+    slug: "itel",
+    name: "Itel",
+    tagline: "Itel solar inverters, batteries & power tanks",
+    description: "Full Itel solar range — power tanks, inverters from 1.5 KVA to 12 KVA and batteries up to 32 KWh.",
     inverters: [
-      { id: "tit-i-50k", name: "Titan 50K", spec: "50kW industrial", power: "50,000 W", features: ["3-phase", "Grid-tied", "SCADA"] },
-      { id: "tit-i-100k", name: "Titan 100K", spec: "100kW industrial", power: "100,000 W", features: ["Modular", "N+1", "Hot-swap"] },
+      { id: "itel-i-15", name: "Itel 1.5 KVA", spec: "12 Volts", power: "1,500 VA", features: ["Pure sine"], price: 230000 },
+      { id: "itel-i-3", name: "Itel 3 KVA", spec: "24 Volts", power: "3,000 VA", features: ["MPPT"], price: 320000 },
+      { id: "itel-i-4", name: "Itel 4 KVA", spec: "24 Volts", power: "4,000 VA", features: ["MPPT"], price: 400000 },
+      { id: "itel-i-6", name: "Itel 6 KVA", spec: "48 Volts", power: "6,000 VA", features: ["MPPT"], price: 540000 },
+      { id: "itel-i-8", name: "Itel 8 KVA (Single phase)", spec: "48 Volts", power: "8,000 VA", features: ["Single phase"], price: 700000 },
+      { id: "itel-i-8-3", name: "Itel 8 KVA (3 phase)", spec: "48 Volts", power: "8,000 VA", features: ["3-phase"], price: 2320000 },
+      { id: "itel-i-12", name: "Itel 12 KVA (Single phase)", spec: "48 Volts", power: "12,000 VA", features: ["Single phase"], price: 2150000 },
+      { id: "itel-i-12-3", name: "Itel 12 KVA (3 phase)", spec: "48 Volts", power: "12,000 VA", features: ["3-phase"], price: 2460000 },
+      { id: "itel-pt-1", name: "Itel 1 KW Power Tank", spec: "Solar Gen", power: "1,000 W", features: ["All-in-one"], price: 350000 },
+      { id: "itel-pt-36", name: "Itel 3.6 KW Power Tank", spec: "Solar Gen", power: "3,600 W", features: ["All-in-one"], price: 1700000 },
     ],
     batteries: [
-      { id: "tit-b-100", name: "Titan Rack 100", spec: "LiFePO4 · 100kWh", power: "100,000 Wh", features: ["19\" rack", "Liquid cooled"] },
-      { id: "tit-b-250", name: "Titan Container", spec: "LiFePO4 · 250kWh", power: "250,000 Wh", features: ["Containerized", "Fire-suppressed"] },
+      { id: "itel-b-100", name: "Itel 100Ah", spec: "12 Volts", power: "1,200 Wh", features: ["LiFePO4"], price: 220000 },
+      { id: "itel-b-25", name: "Itel 2.5 KWh", spec: "24 Volts", power: "2,500 Wh", features: ["LiFePO4"], price: 600000 },
+      { id: "itel-b-5-24", name: "Itel 5 KWh (24V)", spec: "24 Volts", power: "5,000 Wh", features: ["LiFePO4"], price: 950000 },
+      { id: "itel-b-5-48", name: "Itel 5 KWh (48V)", spec: "48 Volts", power: "5,000 Wh", features: ["LiFePO4"], price: 1050000 },
+      { id: "itel-b-10", name: "Itel 10 KWh", spec: "48 Volts", power: "10,000 Wh", features: ["Rack"], price: 1750000 },
+      { id: "itel-b-16", name: "Itel 16 KWh", spec: "48 Volts", power: "16,000 Wh", features: ["Rack"], price: 2250000 },
+      { id: "itel-b-32", name: "Itel 32 KWh", spec: "48 Volts", power: "32,000 Wh", features: ["High capacity"], price: 4300000 },
     ],
   },
   {
-    slug: "grace-pulse",
-    name: "Grace Pulse",
-    tagline: "Portable & emergency power",
-    description: "Compact units for backup, events and mobile work — silent power on demand.",
+    slug: "felicity",
+    name: "Felicity",
+    tagline: "Felicity inverters and batteries",
+    description: "Felicity inverters from 3 KVA to 50 KVA high voltage plus matched batteries.",
     inverters: [
-      { id: "pul-i-1k", name: "Pulse 1K", spec: "1kW portable", power: "1,000 W", features: ["USB-C PD", "AC + DC out"] },
-      { id: "pul-i-2k", name: "Pulse 2K", spec: "2kW portable", power: "2,000 W", features: ["Solar input", "App"] },
+      { id: "fel-i-3", name: "Felicity 3 KVA", spec: "24 Volts", power: "3,000 VA", features: ["Pure sine"], price: 350000 },
+      { id: "fel-i-4", name: "Felicity 4 KVA", spec: "24 Volts", power: "4,000 VA", features: ["MPPT"], price: 450000 },
+      { id: "fel-i-6", name: "Felicity 6 KVA", spec: "48 Volts", power: "6,000 VA", features: ["MPPT"], price: 650000 },
+      { id: "fel-i-8", name: "Felicity 8 KVA", spec: "48 Volts", power: "8,000 VA", features: ["MPPT"], price: 800000 },
+      { id: "fel-i-12", name: "Felicity 12 KVA", spec: "48 Volts", power: "12,000 VA", features: ["Hybrid"], price: 950000 },
+      { id: "fel-i-20", name: "Felicity 20 KVA (3-phase)", spec: "48 Volts · 3-phase", power: "20,000 VA", features: ["3-phase only"], price: 2600000 },
+      { id: "fel-i-30", name: "Felicity 30 KVA (3-phase)", spec: "48 Volts · 3-phase", power: "30,000 VA", features: ["3-phase"], price: 3200000 },
+      { id: "fel-i-50", name: "Felicity 50 KVA HV", spec: "High Voltage", power: "50,000 VA", features: ["High voltage"], price: 6500000 },
     ],
     batteries: [
-      { id: "pul-b-1", name: "Pulse Cell 1", spec: "LiFePO4 · 1kWh", power: "1,000 Wh", features: ["3500 cycles", "5kg"] },
-      { id: "pul-b-2", name: "Pulse Cell 2", spec: "LiFePO4 · 2kWh", power: "2,000 Wh", features: ["Expandable", "IP54"] },
+      { id: "fel-b-100", name: "Felicity 100Ah", spec: "12 Volts", power: "1,200 Wh", features: ["LiFePO4"], price: 400000 },
+      { id: "fel-b-200", name: "Felicity 200Ah", spec: "12 Volts", power: "2,400 Wh", features: ["LiFePO4"], price: 550000 },
     ],
   },
 ];
 
 export const getProduct = (slug: string) =>
   PRODUCTS.find((p) => p.slug === slug);
+
+export const formatNaira = (n: number) =>
+  "₦" + n.toLocaleString("en-NG");
+
+export const findItem = (id: string): { item: Item; line: ProductLine; type: "inverter" | "battery" } | undefined => {
+  for (const line of PRODUCTS) {
+    const inv = line.inverters.find((i) => i.id === id);
+    if (inv) return { item: inv, line, type: "inverter" };
+    const bat = line.batteries.find((b) => b.id === id);
+    if (bat) return { item: bat, line, type: "battery" };
+  }
+  return undefined;
+};
