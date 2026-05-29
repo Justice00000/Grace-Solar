@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ContactsRouteImport } from './routes/contacts'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShopIndexRouteImport } from './routes/shop.index'
 import { Route as ShopProductNameRouteImport } from './routes/shop.$productName'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactsRoute = ContactsRouteImport.update({
   id: '/contacts',
   path: '/contacts',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contacts': typeof ContactsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/shop/$productName': typeof ShopProductNameRoute
   '/shop/': typeof ShopIndexRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contacts': typeof ContactsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/shop/$productName': typeof ShopProductNameRoute
   '/shop': typeof ShopIndexRoute
 }
@@ -60,19 +68,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contacts': typeof ContactsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/shop/$productName': typeof ShopProductNameRoute
   '/shop/': typeof ShopIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contacts' | '/shop/$productName' | '/shop/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contacts'
+    | '/sitemap.xml'
+    | '/shop/$productName'
+    | '/shop/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contacts' | '/shop/$productName' | '/shop'
+  to:
+    | '/'
+    | '/about'
+    | '/contacts'
+    | '/sitemap.xml'
+    | '/shop/$productName'
+    | '/shop'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contacts'
+    | '/sitemap.xml'
     | '/shop/$productName'
     | '/shop/'
   fileRoutesById: FileRoutesById
@@ -81,12 +103,20 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactsRoute: typeof ContactsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ShopProductNameRoute: typeof ShopProductNameRoute
   ShopIndexRoute: typeof ShopIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contacts': {
       id: '/contacts'
       path: '/contacts'
@@ -129,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactsRoute: ContactsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ShopProductNameRoute: ShopProductNameRoute,
   ShopIndexRoute: ShopIndexRoute,
 }
