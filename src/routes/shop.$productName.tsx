@@ -18,6 +18,28 @@ export const Route = createFileRoute("/shop/$productName")({
       ? [
           { title: `${loaderData.product.name} — Grace Solar` },
           { name: "description", content: loaderData.product.description },
+          { property: "og:title", content: `${loaderData.product.name} — Grace Solar` },
+          { property: "og:description", content: loaderData.product.description },
+          { property: "og:url", content: `https://grace-solar-roar.lovable.app/shop/${loaderData.product.slug}` },
+          { property: "og:type", content: "product" },
+        ]
+      : [],
+    links: loaderData
+      ? [{ rel: "canonical", href: `https://grace-solar-roar.lovable.app/shop/${loaderData.product.slug}` }]
+      : [],
+    scripts: loaderData
+      ? [
+          {
+            type: "application/ld+json",
+            children: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              name: loaderData.product.name,
+              description: loaderData.product.description,
+              brand: { "@type": "Brand", name: "Grace Solar" },
+              url: `https://grace-solar-roar.lovable.app/shop/${loaderData.product.slug}`,
+            }),
+          },
         ]
       : [],
   }),
@@ -62,6 +84,7 @@ function ProductLine() {
 
       {/* Tabs */}
       <section className="mx-auto mt-16 max-w-[1400px] px-6">
+        <h2 className="sr-only">Select product type</h2>
         <div className="inline-flex rounded-full border border-border bg-card p-1.5">
           {(["inverter", "battery"] as Tab[]).map((t) => (
             <button
@@ -90,6 +113,7 @@ function ProductLine() {
 
       {/* Items grid with feature image */}
       <section className="mx-auto mt-12 max-w-[1400px] px-6 pb-32">
+        <h2 className="sr-only">{tab === "inverter" ? "Inverters" : "Batteries"} in {product.name}</h2>
         <AnimatePresence mode="wait">
           <motion.div
             key={tab}
@@ -120,7 +144,7 @@ function ProductLine() {
                 >
                   <div className="flex flex-wrap items-baseline justify-between gap-4">
                     <div>
-                      <h3 className="font-display text-3xl font-bold tracking-tight">{item.name}</h3>
+                      <h2 className="font-display text-3xl font-bold tracking-tight">{item.name}</h2>
                       <p className="mt-1 text-sm text-muted-foreground">{item.spec}</p>
                     </div>
                     <div className="text-right">

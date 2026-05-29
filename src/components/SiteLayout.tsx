@@ -95,13 +95,13 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
               </span>
               Grace Solar
             </div>
-            <p className="mt-4 max-w-md text-sm text-background/60">
+            <p className="mt-4 max-w-md text-sm text-background/80">
               Powering homes, businesses and tomorrow with intelligent solar systems
               engineered for reliability.
             </p>
           </div>
           <div>
-            <div className="text-xs uppercase tracking-widest text-background/40">Explore</div>
+            <div className="text-xs uppercase tracking-widest text-background/70">Explore</div>
             <ul className="mt-4 space-y-2 text-sm">
               {NAV.map((n) => (
                 <li key={n.to}>
@@ -113,7 +113,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
             </ul>
           </div>
           <div>
-            <div className="text-xs uppercase tracking-widest text-background/40">Contact</div>
+            <div className="text-xs uppercase tracking-widest text-background/70">Contact</div>
             <ul className="mt-4 space-y-2 text-sm text-background/80">
               <li>hello@gracesolar.com</li>
               <li>+1 (415) 555-0123</li>
@@ -121,7 +121,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
             </ul>
           </div>
         </div>
-        <div className="border-t border-background/10 px-6 py-6 text-center text-xs text-background/40">
+        <div className="border-t border-background/10 px-6 py-6 text-center text-xs text-background/70">
           © {new Date().getFullYear()} Grace Solar. Built with sunlight.
         </div>
       </footer>

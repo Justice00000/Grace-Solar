@@ -10,6 +10,43 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "Grace Solar — Power, Reimagined" },
       { name: "description", content: "Premium solar inverters, batteries and hybrid systems engineered for clean, reliable power — for homes, businesses and the grid." },
+      { property: "og:title", content: "Grace Solar — Power, Reimagined" },
+      { property: "og:description", content: "Premium solar inverters, batteries and hybrid systems engineered for clean, reliable power." },
+      { property: "og:url", content: "https://grace-solar-roar.lovable.app/" },
+      { property: "og:type", content: "website" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://grace-solar-roar.lovable.app/" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Grace Solar",
+          url: "https://grace-solar-roar.lovable.app/",
+          email: "hello@gracesolar.com",
+          telephone: "+1-415-555-0123",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "120 Solar Ave",
+            addressLocality: "Reno",
+            addressRegion: "NV",
+            postalCode: "89501",
+            addressCountry: "US",
+          },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Grace Solar",
+          url: "https://grace-solar-roar.lovable.app/",
+        }),
+      },
     ],
   }),
   component: Index,
@@ -81,7 +118,7 @@ function Index() {
             transition={{ delay: 1.2, duration: 0.8 }}
             className="mt-10 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end"
           >
-            <p className="max-w-md text-base text-background/70">
+            <p className="max-w-md text-base text-background/85">
               Grace Solar engineers next-generation solar inverters and battery storage —
               built for the homes, businesses and grids of a renewable century.
             </p>
@@ -105,7 +142,7 @@ function Index() {
 
         {/* Marquee */}
         <div className="relative overflow-hidden border-y border-background/10 bg-ink py-5">
-          <div className="marquee-track flex w-max gap-12 whitespace-nowrap text-2xl font-medium text-background/40">
+          <div className="marquee-track flex w-max gap-12 whitespace-nowrap text-2xl font-medium text-background/70">
             {Array.from({ length: 2 }).map((_, k) => (
               <div key={k} className="flex items-center gap-12">
                 {["Solar Inverters", "Hybrid Systems", "LiFePO4 Storage", "Off-grid", "Smart EMS", "Industrial"].map((w, i) => (
@@ -194,13 +231,13 @@ function Index() {
                 className="group flex items-center justify-between py-8 transition-colors hover:text-primary-glow"
               >
                 <div className="flex items-baseline gap-8">
-                  <span className="font-mono text-sm text-background/40">0{i + 1}</span>
+                  <span className="font-mono text-sm text-background/70">0{i + 1}</span>
                   <span className="font-display text-3xl font-semibold tracking-tight md:text-5xl">
                     {p.name}
                   </span>
                 </div>
                 <div className="flex items-center gap-6">
-                  <span className="hidden text-sm text-background/50 md:block">{p.tagline}</span>
+                  <span className="hidden text-sm text-background/80 md:block">{p.tagline}</span>
                   <ArrowUpRight className="h-6 w-6 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
                 </div>
               </Link>
