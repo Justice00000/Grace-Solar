@@ -1,13 +1,20 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { findItem } from "@/lib/products";
 
-export type CartLine = { id: string; qty: number };
+export type CartLine = {
+  id: string;
+  name: string;
+  spec: string;
+  price: number;
+  line_name: string;
+  image_url: string | null;
+  qty: number;
+};
 
 type CartCtx = {
   lines: CartLine[];
   count: number;
   total: number;
-  add: (id: string, qty?: number) => void;
+  add: (item: Omit<CartLine, "qty">, qty?: number) => void;
   remove: (id: string) => void;
   setQty: (id: string, qty: number) => void;
   clear: () => void;
@@ -16,7 +23,7 @@ type CartCtx = {
 };
 
 const Ctx = createContext<CartCtx | null>(null);
-const KEY = "grace-cart-v1";
+const KEY = "grace-cart-v2";
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
@@ -36,21 +43,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [lines, hydrated]);
 
   const api = useMemo<CartCtx>(() => {
-    const add = (id: string, qty = 1) =>
+    const add: CartCtx["add"] = (item, qty = 1) =>
       setLines((p) => {
-        const found = p.find((l) => l.id === id);
-        if (found) return p.map((l) => (l.id === id ? { ...l, qty: l.qty + qty } : l));
-        return [...p, { id, qty }];
+        const found = p.find((l) => l.id === item.id);
+        if (found) return p.map((l) => (l.id === item.id ? { ...l, qty: l.qty + qty } : l));
+        return [...p, { ...item, qty }];
       });
     const remove = (id: string) => setLines((p) => p.filter((l) => l.id !== id));
     const setQty = (id: string, qty: number) =>
       setLines((p) => (qty <= 0 ? p.filter((l) => l.id !== id) : p.map((l) => (l.id === id ? { ...l, qty } : l))));
     const clear = () => setLines([]);
     const count = lines.reduce((s, l) => s + l.qty, 0);
-    const total = lines.reduce((s, l) => {
-      const found = findItem(l.id);
-      return s + (found ? found.item.price * l.qty : 0);
-    }, 0);
+    const total = lines.reduce((s, l) => s + l.price * l.qty, 0);
     return { lines, count, total, add, remove, setQty, clear, open, setOpen };
   }, [lines, open]);
 

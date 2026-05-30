@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Trash2, Plus, Minus, MessageCircle } from "lucide-react";
 import { useCart, WHATSAPP_NUMBER } from "@/lib/cart";
-import { findItem, formatNaira } from "@/lib/products";
+import { formatNaira } from "@/lib/products";
 import { useState } from "react";
 
 export function CartDrawer() {
@@ -14,12 +14,7 @@ export function CartDrawer() {
   const checkout = () => {
     if (lines.length === 0) return;
     const itemsText = lines
-      .map((l) => {
-        const f = findItem(l.id);
-        if (!f) return "";
-        return `• ${f.item.name} (${f.item.spec}) x${l.qty} — ${formatNaira(f.item.price * l.qty)}`;
-      })
-      .filter(Boolean)
+      .map((l) => `• ${l.name} (${l.spec}) x${l.qty} — ${formatNaira(l.price * l.qty)}`)
       .join("\n");
     const msg = [
       "*New Order — Grace Solar*",
@@ -44,12 +39,7 @@ export function CartDrawer() {
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
-          className="fixed inset-0 z-[60]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
+        <motion.div className="fixed inset-0 z-[60]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
           <div className="absolute inset-0 bg-ink/60" onClick={() => setOpen(false)} />
           <motion.aside
             initial={{ x: "100%" }}
@@ -70,34 +60,35 @@ export function CartDrawer() {
                 <p className="py-12 text-center text-sm text-muted-foreground">Your cart is empty.</p>
               ) : (
                 <ul className="space-y-4">
-                  {lines.map((l) => {
-                    const f = findItem(l.id);
-                    if (!f) return null;
-                    return (
-                      <li key={l.id} className="rounded-2xl border border-border p-4">
-                        <div className="flex items-start justify-between gap-3">
+                  {lines.map((l) => (
+                    <li key={l.id} className="rounded-2xl border border-border p-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex items-start gap-3">
+                          {l.image_url && (
+                            <img src={l.image_url} alt={l.name} className="h-14 w-14 rounded-lg object-cover" />
+                          )}
                           <div>
-                            <div className="font-display font-semibold">{f.item.name}</div>
-                            <div className="text-xs text-muted-foreground">{f.item.spec} · {f.line.name}</div>
-                            <div className="mt-1 font-mono text-sm text-primary">{formatNaira(f.item.price)}</div>
+                            <div className="font-display font-semibold">{l.name}</div>
+                            <div className="text-xs text-muted-foreground">{l.spec} · {l.line_name}</div>
+                            <div className="mt-1 font-mono text-sm text-primary">{formatNaira(l.price)}</div>
                           </div>
-                          <button onClick={() => remove(l.id)} className="text-muted-foreground hover:text-destructive" aria-label="Remove">
-                            <Trash2 className="h-4 w-4" />
-                          </button>
                         </div>
-                        <div className="mt-3 flex items-center gap-2">
-                          <button onClick={() => setQty(l.id, l.qty - 1)} className="grid h-8 w-8 place-items-center rounded-full border border-border hover:bg-muted">
-                            <Minus className="h-3 w-3" />
-                          </button>
-                          <span className="w-8 text-center font-mono text-sm">{l.qty}</span>
-                          <button onClick={() => setQty(l.id, l.qty + 1)} className="grid h-8 w-8 place-items-center rounded-full border border-border hover:bg-muted">
-                            <Plus className="h-3 w-3" />
-                          </button>
-                          <div className="ml-auto font-mono text-sm font-semibold">{formatNaira(f.item.price * l.qty)}</div>
-                        </div>
-                      </li>
-                    );
-                  })}
+                        <button onClick={() => remove(l.id)} className="text-muted-foreground hover:text-destructive" aria-label="Remove">
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div className="mt-3 flex items-center gap-2">
+                        <button onClick={() => setQty(l.id, l.qty - 1)} className="grid h-8 w-8 place-items-center rounded-full border border-border hover:bg-muted">
+                          <Minus className="h-3 w-3" />
+                        </button>
+                        <span className="w-8 text-center font-mono text-sm">{l.qty}</span>
+                        <button onClick={() => setQty(l.id, l.qty + 1)} className="grid h-8 w-8 place-items-center rounded-full border border-border hover:bg-muted">
+                          <Plus className="h-3 w-3" />
+                        </button>
+                        <div className="ml-auto font-mono text-sm font-semibold">{formatNaira(l.price * l.qty)}</div>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               )}
             </div>
@@ -118,7 +109,7 @@ export function CartDrawer() {
                   onClick={checkout}
                   className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02]"
                 >
-                  <MessageCircle className="h-4 w-4" /> Checkout via WhatsApp
+                  <MessageCircle className="h-4 w-4" /> Send order via WhatsApp
                 </button>
                 <button onClick={clear} className="w-full text-xs text-muted-foreground hover:text-foreground">Clear cart</button>
               </div>
