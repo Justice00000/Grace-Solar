@@ -1,72 +1,60 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { ArrowLeft, Zap, Battery, Check } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { getProduct, type Item } from "@/lib/products";
-import { formatNaira } from "@/lib/products";
+import { useProductLine, formatNaira, type DbProduct } from "@/lib/products";
 import { useCart } from "@/lib/cart";
 import inverterImg from "@/assets/inverter.jpg";
 import batteryImg from "@/assets/battery.jpg";
 
 export const Route = createFileRoute("/shop/$productName")({
-  loader: ({ params }) => {
-    const product = getProduct(params.productName);
-    if (!product) throw notFound();
-    return { product };
-  },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          { title: `${loaderData.product.name} — Grace Solar` },
-          { name: "description", content: loaderData.product.description },
-          { property: "og:title", content: `${loaderData.product.name} — Grace Solar` },
-          { property: "og:description", content: loaderData.product.description },
-          { property: "og:url", content: `https://grace-solar-roar.lovable.app/shop/${loaderData.product.slug}` },
-          { property: "og:type", content: "product" },
-        ]
-      : [],
-    links: loaderData
-      ? [{ rel: "canonical", href: `https://grace-solar-roar.lovable.app/shop/${loaderData.product.slug}` }]
-      : [],
-    scripts: loaderData
-      ? [
-          {
-            type: "application/ld+json",
-            children: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Product",
-              name: loaderData.product.name,
-              description: loaderData.product.description,
-              brand: { "@type": "Brand", name: "Grace Solar" },
-              url: `https://grace-solar-roar.lovable.app/shop/${loaderData.product.slug}`,
-            }),
-          },
-        ]
-      : [],
+  head: ({ params }) => ({
+    meta: [
+      { title: `${params.productName} — Grace Solar` },
+      { name: "description", content: `Browse ${params.productName} inverters and batteries at Grace Solar.` },
+      { property: "og:title", content: `${params.productName} — Grace Solar` },
+      { property: "og:description", content: `Browse ${params.productName} inverters and batteries at Grace Solar.` },
+      { property: "og:url", content: `https://grace-solar-roar.lovable.app/shop/${params.productName}` },
+      { property: "og:type", content: "product" },
+    ],
+    links: [
+      { rel: "canonical", href: `https://grace-solar-roar.lovable.app/shop/${params.productName}` },
+    ],
   }),
   component: ProductLine,
-  notFoundComponent: () => (
-    <SiteLayout>
-      <div className="mx-auto max-w-xl px-6 py-32 text-center">
-        <h1 className="font-display text-5xl font-bold tracking-tighter">Not in catalog</h1>
-        <p className="mt-4 text-muted-foreground">That product line doesn't exist.</p>
-        <Link to="/shop" className="mt-8 inline-block rounded-full bg-ink px-6 py-3 text-sm text-background">
-          Back to shop
-        </Link>
-      </div>
-    </SiteLayout>
-  ),
 });
 
 type Tab = "inverter" | "battery";
 
 function ProductLine() {
-  const { product } = Route.useLoaderData();
+  const { productName } = Route.useParams();
+  const { data: product, isLoading } = useProductLine(productName);
   const [tab, setTab] = useState<Tab>("inverter");
-  const items: Item[] = tab === "inverter" ? product.inverters : product.batteries;
-  const heroImg = tab === "inverter" ? inverterImg : batteryImg;
   const { add, setOpen } = useCart();
+
+  if (isLoading) {
+    return (
+      <SiteLayout>
+        <div className="mx-auto max-w-xl px-6 py-32 text-center text-muted-foreground">Loading…</div>
+      </SiteLayout>
+    );
+  }
+
+  if (!product) {
+    return (
+      <SiteLayout>
+        <div className="mx-auto max-w-xl px-6 py-32 text-center">
+          <h1 className="font-display text-5xl font-bold tracking-tighter">Not in catalog</h1>
+          <p className="mt-4 text-muted-foreground">That product line doesn't exist.</p>
+          <Link to="/shop" className="mt-8 inline-block rounded-full bg-ink px-6 py-3 text-sm text-background">Back to shop</Link>
+        </div>
+      </SiteLayout>
+    );
+  }
+
+  const items: DbProduct[] = tab === "inverter" ? product.inverters : product.batteries;
+  const heroImg = product.image_url ?? (tab === "inverter" ? inverterImg : batteryImg);
 
   return (
     <SiteLayout>
@@ -85,7 +73,6 @@ function ProductLine() {
         </div>
       </section>
 
-      {/* Tabs */}
       <section className="mx-auto mt-16 max-w-[1400px] px-6">
         <h2 className="sr-only">Select product type</h2>
         <div className="inline-flex rounded-full border border-border bg-card p-1.5">
@@ -114,7 +101,6 @@ function ProductLine() {
         </div>
       </section>
 
-      {/* Items grid with feature image */}
       <section className="mx-auto mt-12 max-w-[1400px] px-6 pb-32">
         <h2 className="sr-only">{tab === "inverter" ? "Inverters" : "Batteries"} in {product.name}</h2>
         <AnimatePresence mode="wait">
@@ -155,8 +141,11 @@ function ProductLine() {
                       <div className="font-display text-2xl font-semibold text-primary">{formatNaira(item.price)}</div>
                     </div>
                   </div>
+                  {item.description && (
+                    <p className="mt-4 text-sm text-muted-foreground">{item.description}</p>
+                  )}
                   <ul className="mt-6 flex flex-wrap gap-2">
-                    {item.features.map((f) => (
+                    {item.features.map((f: string) => (
                       <li key={f} className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1.5 text-xs text-foreground">
                         <Check className="h-3 w-3 text-primary" /> {f}
                       </li>
@@ -164,7 +153,17 @@ function ProductLine() {
                   </ul>
                   <div className="mt-6 flex flex-wrap gap-3">
                     <button
-                      onClick={() => { add(item.id); setOpen(true); }}
+                      onClick={() => {
+                        add({
+                          id: item.id,
+                          name: item.name,
+                          spec: item.spec,
+                          price: item.price,
+                          line_name: product.name,
+                          image_url: item.image_url,
+                        });
+                        setOpen(true);
+                      }}
                       className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-105"
                     >
                       Add to cart
