@@ -1,41 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type {} from "@tanstack/react-start";
-import { PRODUCTS } from "@/lib/products";
+import { createClient } from "@supabase/supabase-js";
 
 const BASE_URL = "https://grace-solar-roar.lovable.app";
-
-interface SitemapEntry {
-  path: string;
-  changefreq?: "weekly" | "monthly" | "yearly";
-  priority?: string;
-}
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const entries: SitemapEntry[] = [
+        const url = process.env.SUPABASE_URL!;
+        const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+        const supa = createClient(url, key);
+        const { data } = await supa.from("products").select("line_slug");
+        const slugs = Array.from(new Set((data ?? []).map((r: { line_slug: string }) => r.line_slug)));
+
+        const entries = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
           { path: "/about", changefreq: "monthly", priority: "0.8" },
           { path: "/shop", changefreq: "weekly", priority: "0.9" },
           { path: "/contacts", changefreq: "yearly", priority: "0.7" },
-          ...PRODUCTS.map((p) => ({
-            path: `/shop/${p.slug}`,
-            changefreq: "monthly" as const,
-            priority: "0.8",
-          })),
+          ...slugs.map((s) => ({ path: `/shop/${s}`, changefreq: "monthly", priority: "0.8" })),
         ];
 
         const urls = entries.map((e) =>
-          [
-            `  <url>`,
-            `    <loc>${BASE_URL}${e.path}</loc>`,
-            e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
-            e.priority ? `    <priority>${e.priority}</priority>` : null,
-            `  </url>`,
-          ]
-            .filter(Boolean)
-            .join("\n"),
+          `  <url>\n    <loc>${BASE_URL}${e.path}</loc>\n    <changefreq>${e.changefreq}</changefreq>\n    <priority>${e.priority}</priority>\n  </url>`
         );
 
         const xml = [
@@ -46,10 +33,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         ].join("\n");
 
         return new Response(xml, {
-          headers: {
-            "Content-Type": "application/xml",
-            "Cache-Control": "public, max-age=3600",
-          },
+          headers: { "Content-Type": "application/xml", "Cache-Control": "public, max-age=3600" },
         });
       },
     },

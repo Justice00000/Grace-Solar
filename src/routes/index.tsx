@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Zap, Battery, Cpu, ShieldCheck, Leaf, ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { PRODUCTS } from "@/lib/products";
+import { useProductLines } from "@/lib/products";
 import heroImg from "@/assets/hero-system.jpg";
 
 export const Route = createFileRoute("/")({
@@ -69,6 +69,7 @@ const FEATURES = [
 ];
 
 function Index() {
+  const { data: lines = [] } = useProductLines();
   return (
     <SiteLayout>
       {/* HERO */}
@@ -223,7 +224,7 @@ function Index() {
             </Link>
           </div>
           <div className="mt-16 divide-y divide-background/10 border-y border-background/10">
-            {PRODUCTS.map((p, i) => (
+            {lines.map((p, i) => (
               <Link
                 key={p.slug}
                 to="/shop/$productName"

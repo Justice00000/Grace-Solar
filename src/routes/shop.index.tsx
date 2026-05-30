@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { PRODUCTS } from "@/lib/products";
+import { useProductLines } from "@/lib/products";
 
 export const Route = createFileRoute("/shop/")({
   head: () => ({
@@ -21,6 +21,14 @@ export const Route = createFileRoute("/shop/")({
 });
 
 function Shop() {
+  const { data: PRODUCTS = [], isLoading } = useProductLines();
+  if (isLoading) {
+    return (
+      <SiteLayout>
+        <div className="mx-auto max-w-[1400px] px-6 py-32 text-center text-muted-foreground">Loading catalog…</div>
+      </SiteLayout>
+    );
+  }
   return (
     <SiteLayout>
       <section className="mx-auto max-w-[1400px] px-6 pt-20">
