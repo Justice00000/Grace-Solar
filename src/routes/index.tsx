@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Zap, Battery, Cpu, ShieldCheck, Leaf, ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { PRODUCTS } from "@/lib/products";
+import { useProductLines } from "@/lib/products";
 import heroImg from "@/assets/hero-system.jpg";
 
 export const Route = createFileRoute("/")({
