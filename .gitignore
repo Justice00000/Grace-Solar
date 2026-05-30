@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -34,3 +35,6 @@ dist-ssr
 =======
 node_modules
 >>>>>>> f254d16 (done)
+=======
+node_modules
+>>>>>>> f254d160f082bcb19cc96f586bc5eaecd4602342
