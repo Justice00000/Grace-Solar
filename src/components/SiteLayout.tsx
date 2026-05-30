@@ -1,4 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Menu, X, ShoppingCart } from "lucide-react";
@@ -16,15 +16,21 @@ const NAV = [
 
 export function SiteLayout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { pathname } = useLocation();
   const { count, setOpen: setCartOpen } = useCart();
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
       <header className="fixed top-0 z-50 w-full">
-        <div className="mx-auto mt-4 flex max-w-[1400px] items-center justify-between rounded-full border border-border/60 bg-background/70 px-5 py-3 backdrop-blur-xl">
+        <div className="mx-auto mt-4 flex max-w-[1400px] items-center justify-between rounded-full border border-border/60 bg-background/80 px-5 py-3 backdrop-blur-xl shadow-sm">
           <Link to="/" className="flex items-center gap-2" aria-label="Grace Solar Energy">
-            <img src={graceLogo} alt="Grace Solar Energy" width={140} height={48} className="h-10 w-auto" />
+            <img
+              src={graceLogo}
+              alt="Grace Solar Energy"
+              width={220}
+              height={72}
+              className="h-14 w-auto object-contain md:h-16"
+            />
           </Link>
           <nav className="hidden items-center gap-1 md:flex">
             {NAV.map((item) => {
@@ -33,7 +39,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="group relative rounded-full px-4 py-2 text-sm font-medium text-foreground/70 transition-colors hover:text-foreground"
+                  className="group relative rounded-full px-4 py-2 text-sm font-semibold text-foreground/70 transition-colors hover:text-foreground"
                 >
                   {active && (
                     <motion.span
@@ -64,7 +70,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
             </button>
             <Link
               to="/contacts"
-              className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-background transition-transform hover:scale-105"
+              className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-background transition-transform hover:scale-105"
             >
               Get a quote
             </Link>
@@ -102,7 +108,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
                   key={item.to}
                   to={item.to}
                   onClick={() => setOpen(false)}
-                  className="block rounded-2xl px-4 py-3 text-base font-medium hover:bg-muted"
+                  className="block rounded-2xl px-4 py-3 text-base font-semibold hover:bg-muted"
                 >
                   {item.label}
                 </Link>
@@ -112,14 +118,20 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
         </AnimatePresence>
       </header>
 
-      <main className="pt-24">{children}</main>
+      <main className="pt-28 md:pt-32">{children}</main>
 
       <footer className="mt-32 border-t border-border bg-ink text-background">
         <div className="mx-auto grid max-w-[1400px] gap-12 px-6 py-20 md:grid-cols-4">
           <div className="md:col-span-2">
-            <img src={graceLogo} alt="Grace Solar Energy" width={160} height={56} className="h-12 w-auto bg-background rounded-lg p-1" />
+            <img
+              src={graceLogo}
+              alt="Grace Solar Energy"
+              width={220}
+              height={72}
+              className="h-16 w-auto rounded-lg bg-background p-2 object-contain"
+            />
             <p className="mt-4 max-w-md text-sm italic text-background/80">
-              "Our customer satisfaction, our utmost priority."
+              "Customer satisfaction, our utmost priority."
             </p>
             <p className="mt-3 max-w-md text-sm text-background/70">
               Solar inverters, batteries and power systems for homes and businesses in Lagos and across Nigeria.
@@ -148,7 +160,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
         <div className="border-t border-background/10 px-6 py-6 text-center text-xs text-background/70">
-          © {new Date().getFullYear()} Grace Solar. Built with sunlight.
+          © {new Date().getFullYear()} Grace Solar Energy. Built with sunlight.
         </div>
       </footer>
 
