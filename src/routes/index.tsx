@@ -69,6 +69,7 @@ const FEATURES = [
 ];
 
 function Index() {
+  const { data: lines = [] } = useProductLines();
   return (
     <SiteLayout>
       {/* HERO */}
@@ -223,7 +224,7 @@ function Index() {
             </Link>
           </div>
           <div className="mt-16 divide-y divide-background/10 border-y border-background/10">
-            {PRODUCTS.map((p, i) => (
+            {lines.map((p, i) => (
               <Link
                 key={p.slug}
                 to="/shop/$productName"
