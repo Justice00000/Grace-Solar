@@ -21,6 +21,14 @@ export const Route = createFileRoute("/shop/")({
 });
 
 function Shop() {
+  const { data: PRODUCTS = [], isLoading } = useProductLines();
+  if (isLoading) {
+    return (
+      <SiteLayout>
+        <div className="mx-auto max-w-[1400px] px-6 py-32 text-center text-muted-foreground">Loading catalog…</div>
+      </SiteLayout>
+    );
+  }
   return (
     <SiteLayout>
       <section className="mx-auto max-w-[1400px] px-6 pt-20">
