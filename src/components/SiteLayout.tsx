@@ -1,10 +1,11 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Menu, X, Sun, ShoppingCart } from "lucide-react";
+import { Menu, X, ShoppingCart } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { CartDrawer } from "@/components/CartDrawer";
 import { WhatsAppChat } from "@/components/WhatsAppChat";
+import graceLogo from "@/assets/grace-logo.png";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -22,11 +23,8 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-background text-foreground antialiased">
       <header className="fixed top-0 z-50 w-full">
         <div className="mx-auto mt-4 flex max-w-[1400px] items-center justify-between rounded-full border border-border/60 bg-background/70 px-5 py-3 backdrop-blur-xl">
-          <Link to="/" className="flex items-center gap-2 font-display text-lg font-bold tracking-tight">
-            <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-primary shadow-glow">
-              <Sun className="h-4 w-4 text-primary-foreground" strokeWidth={2.5} />
-            </span>
-            Grace Solar
+          <Link to="/" className="flex items-center gap-2" aria-label="Grace Solar Energy">
+            <img src={graceLogo} alt="Grace Solar Energy" width={140} height={48} className="h-10 w-auto" />
           </Link>
           <nav className="hidden items-center gap-1 md:flex">
             {NAV.map((item) => {
@@ -119,12 +117,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       <footer className="mt-32 border-t border-border bg-ink text-background">
         <div className="mx-auto grid max-w-[1400px] gap-12 px-6 py-20 md:grid-cols-4">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 text-xl font-bold">
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-primary">
-                <Sun className="h-4 w-4" strokeWidth={2.5} />
-              </span>
-              Grace Solar
-            </div>
+            <img src={graceLogo} alt="Grace Solar Energy" width={160} height={56} className="h-12 w-auto bg-background rounded-lg p-1" />
             <p className="mt-4 max-w-md text-sm italic text-background/80">
               "Our customer satisfaction, our utmost priority."
             </p>
