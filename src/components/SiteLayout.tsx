@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { CartDrawer } from "@/components/CartDrawer";
-import { WhatsAppChat } from "@/components/WhatsAppChat";
+import { LiveChat } from "@/components/LiveChat";
 import graceLogo from "@/assets/grace-logo.png";
 
 const NAV = [
@@ -153,7 +153,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       </footer>
 
       <CartDrawer />
-      <WhatsAppChat />
+      <LiveChat />
     </div>
   );
 }
