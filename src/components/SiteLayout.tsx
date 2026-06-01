@@ -21,8 +21,8 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
-      <header className="fixed top-0 z-50 w-full">
-        <div className="mx-auto mt-4 flex max-w-[1400px] items-center justify-between rounded-full border border-border/60 bg-background/80 px-5 py-3 backdrop-blur-xl shadow-sm">
+      <header className="sticky top-0 z-50 w-full">
+        <div className="mx-auto mt-2 flex max-w-[1400px] items-center justify-between rounded-full border border-border/60 bg-background/80 px-5 py-2 backdrop-blur-xl shadow-sm">
           <Link to="/" className="flex items-center gap-2" aria-label="Grace Solar Energy">
             <img
               src={graceLogo}
