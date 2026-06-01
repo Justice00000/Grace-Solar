@@ -29,7 +29,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
               alt="Grace Solar Energy"
               width={720}
               height={236}
-              className="h-28 w-auto object-contain md:h-52"
+              className="h-30 w-auto object-contain md:h-32"
             />
           </Link>
           <nav className="hidden items-center gap-1 md:flex">
