@@ -27,9 +27,9 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
             <img
               src={graceLogo}
               alt="Grace Solar Energy"
-              width={440}
-              height={144}
-              className="h-24 w-auto object-contain md:h-32"
+              width={640}
+              height={210}
+              className="h-28 w-auto object-contain md:h-44"
             />
           </Link>
           <nav className="hidden items-center gap-1 md:flex">
