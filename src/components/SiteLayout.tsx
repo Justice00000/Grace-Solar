@@ -27,9 +27,9 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
             <img
               src={graceLogo}
               alt="Grace Solar Energy"
-              width={220}
-              height={72}
-              className="h-14 w-auto object-contain md:h-16"
+              width={440}
+              height={144}
+              className="h-24 w-auto object-contain md:h-32"
             />
           </Link>
           <nav className="hidden items-center gap-1 md:flex">
@@ -118,7 +118,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
         </AnimatePresence>
       </header>
 
-      <main className="pt-28 md:pt-32">{children}</main>
+      <main className="pt-40 md:pt-52">{children}</main>
 
       <footer className="mt-32 border-t border-border bg-ink text-background">
         <div className="mx-auto grid max-w-[1400px] gap-12 px-6 py-20 md:grid-cols-4">
