@@ -22,14 +22,14 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
       <header className="sticky top-0 z-50 w-full">
-        <div className="mx-auto mt-2 flex max-w-[1400px] items-center justify-between rounded-full border border-border/60 bg-background/80 px-5 py-2 backdrop-blur-xl shadow-sm">
+        <div className="mx-auto mt-2 flex max-w-[1400px] items-center justify-between rounded-full border border-border/60 bg-background/80 px-5 py-1 backdrop-blur-xl shadow-sm">
           <Link to="/" className="flex items-center gap-2" aria-label="Grace Solar Energy">
             <img
               src={graceLogo}
               alt="Grace Solar Energy"
               width={720}
               height={236}
-              className="h-28 w-auto object-contain md:h-52"
+              className="h-16 w-auto object-contain md:h-20"
             />
           </Link>
           <nav className="hidden items-center gap-1 md:flex">
