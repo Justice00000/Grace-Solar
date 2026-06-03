@@ -1,10 +1,10 @@
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import { ArrowLeft, Zap, Battery, Check } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowLeft, Zap, Battery, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
-import { useProductLine, formatNaira, type DbProduct } from "@/lib/products";
+import { useProductLine, useProductLines, formatNaira, type DbProduct } from "@/lib/products";
 import { useCart } from "@/lib/cart";
 
 type Tab = "inverter" | "battery";
