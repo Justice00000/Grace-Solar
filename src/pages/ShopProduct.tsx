@@ -121,6 +121,115 @@ export default function ShopProduct() {
         </AnimatePresence>
         {items.length === 0 && <div className="py-16 text-center text-muted-foreground">No {tab}s in this brand yet.</div>}
       </section>
+
+      <RelatedProducts currentSlug={product.slug} />
     </SiteLayout>
+  );
+}
+
+function RelatedProducts({ currentSlug }: { currentSlug: string }) {
+  const { data: lines = [] } = useProductLines();
+  const { add, setOpen } = useCart();
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  // Flatten all products from other brands
+  const related: Array<DbProduct & { line_name: string; line_slug: string }> = [];
+  for (const line of lines) {
+    if (line.slug === currentSlug) continue;
+    for (const p of [...line.inverters, ...line.batteries]) {
+      related.push({ ...p, line_name: line.name, line_slug: line.slug });
+    }
+  }
+
+  // Auto-scroll the carousel
+  useEffect(() => {
+    if (related.length === 0) return;
+    const el = scrollerRef.current;
+    if (!el) return;
+    let paused = false;
+    const onEnter = () => { paused = true; };
+    const onLeave = () => { paused = false; };
+    el.addEventListener("mouseenter", onEnter);
+    el.addEventListener("mouseleave", onLeave);
+    const id = setInterval(() => {
+      if (paused || !el) return;
+      const max = el.scrollWidth - el.clientWidth;
+      if (el.scrollLeft >= max - 4) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        el.scrollBy({ left: 280, behavior: "smooth" });
+      }
+    }, 3200);
+    return () => {
+      clearInterval(id);
+      el.removeEventListener("mouseenter", onEnter);
+      el.removeEventListener("mouseleave", onLeave);
+    };
+  }, [related.length]);
+
+  const scroll = (dir: 1 | -1) => {
+    scrollerRef.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
+  };
+
+  if (related.length === 0) return null;
+
+  return (
+    <section className="border-t border-border bg-muted/30">
+      <div className="mx-auto max-w-[1400px] px-6 py-16">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">Discover more</div>
+            <h2 className="mt-2 font-display text-4xl font-black tracking-tighter md:text-5xl">Related products</h2>
+          </div>
+          <div className="hidden gap-2 md:flex">
+            <button onClick={() => scroll(-1)} aria-label="Scroll left" className="grid h-11 w-11 place-items-center rounded-full border border-border bg-background hover:bg-muted">
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button onClick={() => scroll(1)} aria-label="Scroll right" className="grid h-11 w-11 place-items-center rounded-full border border-border bg-background hover:bg-muted">
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        <div
+          ref={scrollerRef}
+          className="mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {related.map((item, i) => (
+            <motion.article
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: (i % 6) * 0.04 }}
+              className="group flex w-[260px] flex-shrink-0 snap-start flex-col overflow-hidden rounded-3xl border border-border bg-card transition-all hover:border-ink hover:shadow-elevated md:w-[280px]"
+            >
+              <Link to={`/shop/${item.line_slug}`} className="block aspect-square overflow-hidden bg-muted">
+                {item.image_url ? (
+                  <img src={item.image_url} alt={item.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                ) : (
+                  <div className="grid h-full w-full place-items-center text-xs text-muted-foreground">No image</div>
+                )}
+              </Link>
+              <div className="flex flex-1 flex-col p-5">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{item.line_name}</div>
+                <h3 className="mt-1 font-display text-base font-bold leading-tight">{item.name}</h3>
+                <p className="mt-1 text-xs text-muted-foreground">{item.spec}{item.power ? ` · ${item.power}` : ""}</p>
+                <div className="mt-2 font-display text-lg font-black text-primary">{formatNaira(item.price)}</div>
+                <button
+                  onClick={() => {
+                    add({ id: item.id, name: item.name, spec: item.spec, price: item.price, line_name: item.line_name, image_url: item.image_url });
+                    setOpen(true);
+                  }}
+                  className="mt-auto inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-primary px-4 py-2.5 pt-2.5 text-xs font-bold text-primary-foreground transition-transform hover:scale-[1.03]"
+                >
+                  Add to cart
+                </button>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
