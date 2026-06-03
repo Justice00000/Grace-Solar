@@ -6,13 +6,13 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatNaira, type DbProduct } from "@/lib/products";
-import { Trash2, Plus, Save, Upload, ExternalLink, MessageSquare, Package } from "lucide-react";
+import { Trash2, Plus, Save, Upload, ExternalLink, MessageSquare, Package, ShoppingBag } from "lucide-react";
 import { WHATSAPP_NUMBER } from "@/lib/cart";
 
 export default function Admin() {
   const { user, isAdmin, loading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"products" | "messages">("products");
+  const [tab, setTab] = useState<"products" | "messages" | "orders">("products");
 
   useEffect(() => {
     if (!loading && !user) navigate("/auth");
