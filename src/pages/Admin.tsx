@@ -49,17 +49,17 @@ export default function Admin() {
           </div>
         </div>
         <div className="mt-8 inline-flex rounded-full border border-border bg-card p-1.5">
-          {(["products", "messages"] as const).map((t) => (
+          {(["products", "orders", "messages"] as const).map((t) => (
             <button key={t} onClick={() => setTab(t)} className={`inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold ${tab === t ? "bg-ink text-background" : "text-foreground"}`}>
-              {t === "products" ? <Package className="h-4 w-4" /> : <MessageSquare className="h-4 w-4" />}
-              {t === "products" ? "Products" : "Messages"}
+              {t === "products" ? <Package className="h-4 w-4" /> : t === "orders" ? <ShoppingBag className="h-4 w-4" /> : <MessageSquare className="h-4 w-4" />}
+              {t === "products" ? "Products" : t === "orders" ? "Orders" : "Messages"}
             </button>
           ))}
         </div>
       </section>
 
       <section className="mx-auto max-w-[1400px] px-6 py-12">
-        {tab === "products" ? <ProductsAdmin /> : <MessagesAdmin />}
+        {tab === "products" ? <ProductsAdmin /> : tab === "orders" ? <OrdersAdmin /> : <MessagesAdmin />}
       </section>
     </SiteLayout>
   );
