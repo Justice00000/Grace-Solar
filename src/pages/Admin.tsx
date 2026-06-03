@@ -288,3 +288,136 @@ function ConversationView({ conv, onChange }: { conv: Conv; onChange: () => void
     </div>
   );
 }
+
+type Order = {
+  id: string;
+  full_name: string;
+  email: string;
+  phone: string;
+  address: string;
+  note: string | null;
+  items: Array<{ name: string; spec: string; qty: number; price: number; subtotal: number; line_name: string }>;
+  total: number;
+  proof_url: string | null;
+  status: string;
+  created_at: string;
+};
+
+function OrdersAdmin() {
+  const qc = useQueryClient();
+  const { data = [] } = useQuery({
+    queryKey: ["admin-orders"],
+    queryFn: async () => {
+      const { data } = await (supabase.from as any)("orders").select("*").order("created_at", { ascending: false });
+      return (data ?? []) as Order[];
+    },
+    refetchInterval: 10000,
+  });
+  const [activeId, setActiveId] = useState<string | null>(null);
+  useEffect(() => { if (!activeId && data[0]) setActiveId(data[0].id); }, [data, activeId]);
+  const active = data.find((o) => o.id === activeId);
+
+  const setStatus = async (id: string, status: string) => {
+    await (supabase.from as any)("orders").update({ status }).eq("id", id);
+    qc.invalidateQueries({ queryKey: ["admin-orders"] });
+  };
+  const remove = async (id: string) => {
+    if (!confirm("Delete this order?")) return;
+    await (supabase.from as any)("orders").delete().eq("id", id);
+    setActiveId(null);
+    qc.invalidateQueries({ queryKey: ["admin-orders"] });
+  };
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
+      <aside className="rounded-3xl border border-border bg-card p-3">
+        <div className="px-2 py-2 text-xs uppercase tracking-widest text-muted-foreground">Orders ({data.length})</div>
+        <div className="max-h-[70vh] space-y-1 overflow-y-auto">
+          {data.map((o) => (
+            <button key={o.id} onClick={() => setActiveId(o.id)} className={`block w-full rounded-2xl px-3 py-2.5 text-left ${activeId === o.id ? "bg-ink text-background" : "hover:bg-muted"}`}>
+              <div className="flex items-center justify-between gap-2">
+                <div className="text-sm font-semibold">{o.full_name}</div>
+                <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${o.status === "paid" ? "bg-green-500/20 text-green-700" : o.status === "cancelled" ? "bg-destructive/20 text-destructive" : activeId === o.id ? "bg-background/20" : "bg-muted text-muted-foreground"}`}>{o.status}</span>
+              </div>
+              <div className={`mt-0.5 font-mono text-xs ${activeId === o.id ? "opacity-80" : "text-primary"}`}>{formatNaira(o.total)}</div>
+              <div className={`text-[10px] ${activeId === o.id ? "opacity-70" : "text-muted-foreground"}`}>{new Date(o.created_at).toLocaleString()}</div>
+            </button>
+          ))}
+          {data.length === 0 && <div className="px-3 py-8 text-center text-sm text-muted-foreground">No orders yet.</div>}
+        </div>
+      </aside>
+      <div>
+        {active ? (
+          <div className="rounded-3xl border border-border bg-card p-6">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div className="text-xs uppercase tracking-widest text-muted-foreground">Order · {new Date(active.created_at).toLocaleString()}</div>
+                <h3 className="mt-1 font-display text-2xl font-black">{active.full_name}</h3>
+              </div>
+              <div className="flex items-center gap-2">
+                <select value={active.status} onChange={(e) => setStatus(active.id, e.target.value)} className="rounded-full border border-border bg-background px-3 py-1.5 text-xs font-semibold">
+                  <option value="pending">Pending</option>
+                  <option value="paid">Paid</option>
+                  <option value="shipped">Shipped</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+                <button onClick={() => remove(active.id)} className="rounded-full p-2 text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
+              </div>
+            </div>
+
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl bg-muted/50 p-4 text-sm">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Contact</div>
+                <div className="mt-2 space-y-1">
+                  <div><span className="text-muted-foreground">Phone: </span><a href={`tel:${active.phone}`} className="font-semibold hover:underline">{active.phone}</a></div>
+                  <div><span className="text-muted-foreground">Email: </span><a href={`mailto:${active.email}`} className="font-semibold hover:underline">{active.email}</a></div>
+                  <div><span className="text-muted-foreground">Address: </span><span className="font-semibold">{active.address}</span></div>
+                  {active.note && <div><span className="text-muted-foreground">Note: </span><span>{active.note}</span></div>}
+                </div>
+              </div>
+              <div className="rounded-2xl bg-muted/50 p-4 text-sm">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Proof of payment</div>
+                {active.proof_url ? (
+                  <a href={active.proof_url} target="_blank" rel="noopener noreferrer" className="mt-2 block">
+                    <img src={active.proof_url} alt="proof" className="max-h-48 w-full rounded-xl object-contain bg-background" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                    <span className="mt-2 inline-flex items-center gap-1 text-xs text-primary hover:underline"><ExternalLink className="h-3 w-3" /> Open full size</span>
+                  </a>
+                ) : <div className="mt-2 text-xs text-muted-foreground">No proof uploaded.</div>}
+              </div>
+            </div>
+
+            <div className="mt-5 rounded-2xl border border-border p-4">
+              <div className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Items</div>
+              <ul className="mt-2 divide-y divide-border">
+                {active.items.map((it, i) => (
+                  <li key={i} className="flex items-center justify-between py-2 text-sm">
+                    <div>
+                      <div className="font-semibold">{it.name} <span className="text-xs text-muted-foreground">× {it.qty}</span></div>
+                      <div className="text-xs text-muted-foreground">{it.line_name} · {it.spec}</div>
+                    </div>
+                    <div className="font-mono text-sm">{formatNaira(it.subtotal)}</div>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
+                <span className="text-xs uppercase tracking-widest text-muted-foreground">Total</span>
+                <span className="font-display text-2xl font-black text-primary">{formatNaira(active.total)}</span>
+              </div>
+            </div>
+
+            <a
+              href={`https://wa.me/${active.phone.replace(/\D/g, "").replace(/^0/, "234")}?text=${encodeURIComponent(`Hello ${active.full_name}, this is Grace Solar regarding your order of ${formatNaira(active.total)}.`)}`}
+              target="_blank" rel="noopener noreferrer"
+              className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold text-primary-foreground"
+            >
+              <ExternalLink className="h-3 w-3" /> Contact buyer on WhatsApp
+            </a>
+          </div>
+        ) : (
+          <div className="rounded-3xl border border-border p-8 text-center text-muted-foreground">Select an order.</div>
+        )}
+      </div>
+    </div>
+  );
+}
