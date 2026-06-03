@@ -1,0 +1,18 @@
+# Grace Solar
+
+> Grace Solar engineers next-generation solar inverters and battery storage for homes, businesses, and off-grid sites.
+
+## Pages
+
+- [Home](/): Overview of Grace Solar systems, stats, and product lines.
+- [About](/about): Company mission, history, and engineering principles.
+- [Shop](/shop): Five product lines of inverters and batteries.
+- [Contacts](/contacts): Email, phone, headquarters, and quote requests.
+
+## Product lines
+
+- [Grace Apex](/shop/grace-apex): Flagship hybrid commercial systems.
+- [Grace Hybrid](/shop/grace-hybrid): All-in-one residential systems.
+- [Grace Edge](/shop/grace-edge): Off-grid and remote deployments.
+- [Grace Titan](/shop/grace-titan): Industrial-grade container storage.
+- [Grace Pulse](/shop/grace-pulse): Portable and emergency power.
