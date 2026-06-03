@@ -63,7 +63,7 @@ export function CartDrawer() {
         qty: l.qty,
         subtotal: l.price * l.qty,
       }));
-      const { error: insErr } = await supabase.from("orders").insert({
+      const { error: insErr } = await (supabase.from as any)("orders").insert({
         full_name: name,
         email,
         phone,
